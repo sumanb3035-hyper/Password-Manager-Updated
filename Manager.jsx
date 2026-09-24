@@ -51,12 +51,9 @@ const Manager = () => {
         });
     }
 
-    // FIXED: only delete when actually replacing an existing (edited) entry,
-    // and reuse a single generated id instead of calling uuidv4() twice
     const savePassword = async () => {
         if (form.site.length >= 1 && form.username.length >= 1 && form.password.length >= 1) {
             if (form.id) {
-                // editing an existing entry: remove the old doc first
                 await fetch("http://localhost:3000/", {
                     method: "DELETE",
                     headers: { "content-Type": "application/json" },
@@ -84,7 +81,6 @@ const Manager = () => {
         let C = confirm("Delete Permanently")
         if (C) {
             setpasswordArray(passwordArray.filter(item => item.id != id))
-            // FIXED: missing colon before port (was http://localhost3000/)
             let res = await fetch("http://localhost:3000/", {
                 method: "DELETE",
                 headers: { "content-Type": "application/json" },
